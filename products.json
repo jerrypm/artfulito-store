@@ -4,7 +4,7 @@
     "name": "Cute Bunny Doll",
     "price": 150000,
     "description": "Adorable handmade crochet bunny doll with soft pastel colors. Perfect for children and collectors alike.",
-    "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&crop=center",
+    "image": "https://images.unsplash.com/photo-1702142006500-a1ea944a2a67?q=80&w=1315&auto=format&fit=crop=center",
     "category": "dolls"
   },
   {
@@ -12,7 +12,7 @@
     "name": "Elegant Tote Bag",
     "price": 275000,
     "description": "Stylish crochet tote bag made with premium cotton yarn. Spacious and durable for everyday use.",
-    "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&crop=center",
+    "image": "https://images.unsplash.com/photo-1594638963668-52eb9798e8ca?q=80&w=987&auto=format&fit=crop=center",
     "category": "bags"
   },
   {
@@ -20,7 +20,7 @@
     "name": "Cozy Cardigan",
     "price": 450000,
     "description": "Warm and comfortable crochet cardigan in neutral tones. Available in multiple sizes.",
-    "image": "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=400&fit=crop&crop=center",
+    "image": "https://images.unsplash.com/photo-1679847628912-4c3e7402abc7?q=80&w=1480&auto=format&fit=crop=center",
     "category": "clothes"
   },
   {
@@ -36,7 +36,7 @@
     "name": "Mini Crossbody Bag",
     "price": 185000,
     "description": "Compact and trendy crochet crossbody bag. Perfect for carrying essentials while staying stylish.",
-    "image": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=400&fit=crop&crop=center",
+    "image": "https://plus.unsplash.com/premium_photo-1727427850057-74de21f91bb8?q=80&w=987&auto=format&fit=crop=center",
     "category": "bags"
   },
   {
@@ -44,7 +44,7 @@
     "name": "Baby Bear Amigurumi",
     "price": 125000,
     "description": "Sweet little crochet bear perfect for babies and toddlers. Made with baby-safe materials.",
-    "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop&crop=center",
+    "image": "https://www.allaboutami.com/wp-content/uploads/2024/06/2-logo-a.jpg",
     "category": "dolls"
   }
 ]
