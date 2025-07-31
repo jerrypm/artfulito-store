@@ -42,6 +42,101 @@
                 <!-- Products will be loaded here dynamically -->
             </div>
 
+            <!-- Custom Request Section -->
+            <div class="custom-section" id="customSection" style="display: none;">
+                <div class="custom-header">
+                    <h2>🎨 Custom Request</h2>
+                    <p>Punya ide khusus? Kami siap mewujudkan kreasi rajutan impian Anda!</p>
+                </div>
+                
+                <div class="custom-content">
+                    <div class="custom-info">
+                        <h3>Bagaimana Cara Memesan Custom?</h3>
+                        <div class="steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Kirim Foto & Deskripsi</h4>
+                                    <p>Kirimkan foto referensi atau deskripsi detail tentang produk yang Anda inginkan</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Konsultasi & Quote</h4>
+                                    <p>Kami akan memberikan estimasi harga dan waktu pengerjaan</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Proses Pembuatan</h4>
+                                    <p>Setelah deal, kami akan mulai mengerjakan pesanan custom Anda</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="custom-form">
+                        <h3>Hubungi Kami Sekarang</h3>
+                        <form class="contact-form" id="customForm">
+                            <div class="form-group">
+                                <label for="customerName">Nama Lengkap</label>
+                                <input type="text" id="customerName" name="customerName" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="customerEmail">Email</label>
+                                <input type="email" id="customerEmail" name="customerEmail" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="customerPhone">No. WhatsApp</label>
+                                <input type="tel" id="customerPhone" name="customerPhone" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="customDescription">Deskripsi Produk Custom</label>
+                                <textarea id="customDescription" name="customDescription" rows="4" placeholder="Jelaskan detail produk yang Anda inginkan..." required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="budget">Budget (Opsional)</label>
+                                <select id="budget" name="budget">
+                                    <option value="">Pilih range budget</option>
+                                    <option value="under-200k">Di bawah Rp 200.000</option>
+                                    <option value="200k-500k">Rp 200.000 - Rp 500.000</option>
+                                    <option value="500k-1m">Rp 500.000 - Rp 1.000.000</option>
+                                    <option value="above-1m">Di atas Rp 1.000.000</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="submit-btn">
+                                <span>📱</span> Kirim via WhatsApp
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="custom-gallery">
+                    <h3>Contoh Hasil Custom Kami</h3>
+                    <div class="gallery-grid">
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400&h=400&fit=crop&crop=center" alt="Custom Pet Portrait">
+                            <p>Custom Pet Portrait</p>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1702142006500-a1ea944a2a67?q=80&w=400&h=400&fit=crop&crop=center" alt="Custom Character Doll">
+                            <p>Custom Character Doll</p>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1594638963668-52eb9798e8ca?q=80&w=400&h=400&fit=crop&crop=center" alt="Custom Bag Design">
+                            <p>Custom Bag Design</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Loading State -->
             <div class="loading" id="loading">
                 <p>Loading beautiful handmade products...</p>
@@ -69,10 +164,12 @@
 
         // DOM elements
         const productsGrid = document.getElementById('productsGrid');
+        const customSection = document.getElementById('customSection');
         const loading = document.getElementById('loading');
         const noResults = document.getElementById('noResults');
         const searchInput = document.getElementById('searchInput');
         const filterButtons = document.querySelectorAll('.filter-btn');
+        const customForm = document.getElementById('customForm');
 
         // Load products from JSON
         async function loadProducts() {
@@ -101,7 +198,6 @@
         }
 
         // Create product card HTML
-        // Update function createProductCard di index.html
         function createProductCard(product) {
             return `
                 <div class="product-card" data-category="${product.category}">
@@ -125,6 +221,17 @@
 
         // Render products to the grid
         function renderProducts() {
+            if (currentCategory === 'custom') {
+                // Show custom section, hide products grid
+                productsGrid.style.display = 'none';
+                customSection.style.display = 'block';
+                noResults.style.display = 'none';
+                return;
+            }
+            
+            // Hide custom section, show products grid
+            customSection.style.display = 'none';
+            
             if (filteredProducts.length === 0) {
                 productsGrid.style.display = 'none';
                 noResults.style.display = 'block';
@@ -138,6 +245,11 @@
 
         // Filter products by category and search
         function filterProducts() {
+            if (currentCategory === 'custom') {
+                renderProducts();
+                return;
+            }
+            
             filteredProducts = allProducts.filter(product => {
                 const matchesCategory = currentCategory === 'all' || product.category === currentCategory;
                 const matchesSearch = currentSearch === '' || 
@@ -157,14 +269,64 @@
                 
                 // Update current category and filter
                 currentCategory = button.dataset.category;
-                filterProducts();
+                
+                // If custom is selected, scroll to custom section
+                if (currentCategory === 'custom') {
+                    filterProducts();
+                    setTimeout(() => {
+                        customSection.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                } else {
+                    filterProducts();
+                }
             });
         });
 
         // Handle search input
         searchInput.addEventListener('input', (e) => {
             currentSearch = e.target.value;
-            filterProducts();
+            if (currentCategory !== 'custom') {
+                filterProducts();
+            }
+        });
+
+        // Handle custom form submission
+        customForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(customForm);
+            const name = formData.get('customerName');
+            const email = formData.get('customerEmail');
+            const phone = formData.get('customerPhone');
+            const description = formData.get('customDescription');
+            const budget = formData.get('budget');
+            
+            // Create WhatsApp message
+            let message = `Halo Artfulito! 👋\n\n`;
+            message += `Saya ingin memesan produk custom:\n\n`;
+            message += `📝 Nama: ${name}\n`;
+            message += `📧 Email: ${email}\n`;
+            message += `📱 Phone: ${phone}\n\n`;
+            message += `🎨 Deskripsi Produk:\n${description}\n\n`;
+            
+            if (budget) {
+                const budgetText = {
+                    'under-200k': 'Di bawah Rp 200.000',
+                    '200k-500k': 'Rp 200.000 - Rp 500.000',
+                    '500k-1m': 'Rp 500.000 - Rp 1.000.000',
+                    'above-1m': 'Di atas Rp 1.000.000'
+                };
+                message += `💰 Budget: ${budgetText[budget]}\n\n`;
+            }
+            
+            message += `Mohon informasi lebih lanjut mengenai harga dan waktu pengerjaan. Terima kasih! 🙏`;
+            
+            // Encode message for WhatsApp URL
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappURL = `https://wa.me/6281234567890?text=${encodedMessage}`;
+            
+            // Open WhatsApp
+            window.open(whatsappURL, '_blank');
         });
 
         // Initialize the app
