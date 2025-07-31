@@ -25,14 +25,6 @@
   },
   {
     "id": 4,
-    "name": "Custom Pet Portrait",
-    "price": 200000,
-    "description": "Personalized crochet doll of your beloved pet. Send us a photo and we'll create a unique keepsake.",
-    "image": "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400&h=400&fit=crop&crop=center",
-    "category": "custom"
-  },
-  {
-    "id": 5,
     "name": "Mini Crossbody Bag",
     "price": 185000,
     "description": "Compact and trendy crochet crossbody bag. Perfect for carrying essentials while staying stylish.",
@@ -40,7 +32,7 @@
     "category": "bags"
   },
   {
-    "id": 6,
+    "id": 5,
     "name": "Baby Bear Amigurumi",
     "price": 125000,
     "description": "Sweet little crochet bear perfect for babies and toddlers. Made with baby-safe materials.",
