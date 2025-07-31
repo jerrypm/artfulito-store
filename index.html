@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Handmade crochet products - dolls, bags, clothing, and custom pieces. Quality craftsmanship with love.">
+    <meta name="keywords" content="crochet, handmade, dolls, bags, clothing, custom, boneka rajut, tas rajut, baju rajut">
+    <title>Artfulito - Handmade Crochet Creations</title>
+    <!-- Update link CSS di index.html -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧶</text></svg>">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">🧶 Artfulito</h1>
+            <p class="tagline">Handmade with Love</p>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Search and Filter Section -->
+            <div class="controls">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search products..." class="search-input">
+                </div>
+                <div class="filter-container">
+                    <button class="filter-btn active" data-category="all">All</button>
+                    <button class="filter-btn" data-category="dolls">Dolls</button>
+                    <button class="filter-btn" data-category="bags">Bags</button>
+                    <button class="filter-btn" data-category="clothes">Clothes</button>
+                    <button class="filter-btn" data-category="custom">Custom</button>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here dynamically -->
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading" id="loading">
+                <p>Loading beautiful handmade products...</p>
+            </div>
+
+            <!-- No Results State -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <p>No products found. Try adjusting your search or filter.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Artfulito. Made with 💝 for handmade lovers.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Global variables
+        let allProducts = [];
+        let filteredProducts = [];
+        let currentCategory = 'all';
+        let currentSearch = '';
+
+        // DOM elements
+        const productsGrid = document.getElementById('productsGrid');
+        const loading = document.getElementById('loading');
+        const noResults = document.getElementById('noResults');
+        const searchInput = document.getElementById('searchInput');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        // Load products from JSON
+        async function loadProducts() {
+            try {
+                const response = await fetch('products.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load products');
+                }
+                allProducts = await response.json();
+                filteredProducts = [...allProducts];
+                renderProducts();
+                loading.style.display = 'none';
+            } catch (error) {
+                console.error('Error loading products:', error);
+                loading.innerHTML = '<p>Sorry, we couldn\'t load the products. Please try again later.</p>';
+            }
+        }
+
+        // Format price in IDR
+        function formatPrice(price) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(price);
+        }
+
+        // Create product card HTML
+        // Update function createProductCard di index.html
+        function createProductCard(product) {
+            return `
+                <div class="product-card" data-category="${product.category}">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" loading="lazy">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-price">${formatPrice(product.price)}</p>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-category">
+                            <span class="category-tag">${product.category}</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="detail.html?id=${product.id}" class="view-detail-btn">Lihat Detail</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render products to the grid
+        function renderProducts() {
+            if (filteredProducts.length === 0) {
+                productsGrid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            productsGrid.style.display = 'grid';
+            noResults.style.display = 'none';
+            productsGrid.innerHTML = filteredProducts.map(createProductCard).join('');
+        }
+
+        // Filter products by category and search
+        function filterProducts() {
+            filteredProducts = allProducts.filter(product => {
+                const matchesCategory = currentCategory === 'all' || product.category === currentCategory;
+                const matchesSearch = currentSearch === '' || 
+                    product.name.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                    product.description.toLowerCase().includes(currentSearch.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+            renderProducts();
+        }
+
+        // Handle category filter clicks
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Update current category and filter
+                currentCategory = button.dataset.category;
+                filterProducts();
+            });
+        });
+
+        // Handle search input
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            filterProducts();
+        });
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+        });
+    </script>
+</body>
+</html>
